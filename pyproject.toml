@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "django-object-checker"
+version = "0.1.0"
+description = "Hello. I'm just an abstract object 📦 and I would be very glad to have user authorization because I hate criminals 🦹‍♂️ like pedophiles, robbers, hackers and so on."
+authors = ["Adam Žúrek <adamzurek14@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "^3.0.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.0.0"
+pytest-flake8 = "^1.0.6"
+pytest-cov = "^2.10.0"
+pytest-django = "^3.9.0"
+
+[build-system]
+requires = ["poetry>=1.0.0"]
+build-backend = "poetry.masonry.api"

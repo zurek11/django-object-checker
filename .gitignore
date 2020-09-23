@@ -1,0 +1,11 @@
+.idea/
+.pytest_cache
+django-object-checker.egg-info
+build
+dist
+venv
+.env
+__pycache__/
+object_checker/__pycache__/
+tests/__pycache__/
+db.sqlite3
