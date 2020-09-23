@@ -46,10 +46,10 @@ def abstract_objects(db):
 @pytest.mark.django_db
 class TestObjectAuthorization:
     def test_object_authorization_admin(self, abstract_objects, super_user):
-        assert has_object_permission('check_abstract_objects', super_user, abstract_objects) == True
+        assert has_object_permission('check_abstract_objects', super_user, abstract_objects)
 
     def test_object_authorization_manager(self, abstract_objects, manager_user):
-        assert has_object_permission('check_abstract_objects', manager_user, abstract_objects) == True
+        assert has_object_permission('check_abstract_objects', manager_user, abstract_objects)
 
     def test_object_authorization_no_role(self, abstract_objects, no_role_user):
-        assert has_object_permission('check_abstract_objects', no_role_user, abstract_objects) == False
+        assert not has_object_permission('check_abstract_objects', no_role_user, abstract_objects)
