@@ -20,7 +20,7 @@ setup(
         'object_checker'
     ],
     install_requires=[
-        'django==3.0.*'
+        'Django>=2.0'
     ],
     url='https://github.com/zurek11/django-object-checker',
     license='MIT',
