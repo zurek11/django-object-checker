@@ -46,9 +46,6 @@ def has_object_permission(checker_name: str, user: User, obj) -> bool:
         checker = ObjectChecker.retrieve_checker(checker_name)
         user_roles = ObjectChecker.get_user_roles(user)
 
-        if user_roles:
-            has_permission = any([checker(user_role, user, obj) for user_role in user_roles])
-        else:
-            has_permission = False
+        has_permission = any([checker(user_role, user, obj) for user_role in user_roles])
 
     return has_permission
