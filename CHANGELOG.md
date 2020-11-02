@@ -6,6 +6,10 @@
 
 - 🌧 Changed Django version requirement from 3.0.* to >= 2.0
 
-## 0.1.2 : 2020-10-05
+## 0.1.2 : 2020-10-15
 
 - 😺 Fixed issue, when user has no role, but has permissions and object_checker returned false.
+
+## 0.1.3 : 2020-11-02
+
+- 🐄 Updated version in pyproject.toml file and fixed date in CHANGELOG.md.

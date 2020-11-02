@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-object-checker"
-version = "0.1.0"
+version = "0.1.2"
 description = "Hello. I'm just an abstract object 📦 and I would be very glad to have user authorization because I hate criminals 🦹‍♂️ like pedophiles, robbers, hackers and so on."
 authors = ["Adam Žúrek <adamzurek14@gmail.com>"]
 license = "MIT"
