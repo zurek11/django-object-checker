@@ -18,7 +18,7 @@ class AbacObjectChecker(AbacChecker):
         try:
             user_group = user.groups.get(name='manager')
             group_name = user_group.name
-        except:
+        except Group.DoesNotExist:
             group_name = ''
 
         if group_name == 'manager':

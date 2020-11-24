@@ -28,7 +28,9 @@ class CheckingManager(ABC):
                                     )
                                 )
                             else:
-                                cls.loaded_checkers.update({f'{attr_name}': (getattr(subclass, attr_name), checking_subclass)})
+                                cls.loaded_checkers.update(
+                                    {f'{attr_name}': (getattr(subclass, attr_name), checking_subclass)}
+                                )
 
         return cls.loaded_checkers
 
