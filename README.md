@@ -38,18 +38,22 @@ OBJECT_CHECKERS_MODULE = 'app.checkers'
 
 #### 1. Create module according to specified path in settings
 
-#### 2. Create your own ObjectChecker class with checker method
+#### 2. Create your own RBAC ObjectChecker or ABAC ObjectChecker class with checker method
 
 > Valid check methods are only these, which name starts with `check_`.
-> So if you want to implement your custom methods which you want to be ignored by BaseObjectChecker your hands are free.
+> So if you want to implement your custom methods which you want to be ignored by CheckingManager your hands are free.
+
+##### RbacChecker
+
+---
 
 ```python
 from django.contrib.auth.models import Group, User
 
-from object_checker.base_object_checker import ObjectChecker
+from object_checker.base_object_checker import RbacChecker
 
 
-class MyObjectChecker(ObjectChecker):
+class MyObjectChecker(RbacChecker):
     @staticmethod
     def check_my_object(role: Group, user: User, obj):
         result = False
@@ -58,6 +62,24 @@ class MyObjectChecker(ObjectChecker):
             result = True
 
         return result
+```
+
+##### AbacChecker
+
+---
+
+```python
+from django.contrib.auth.models import User
+
+from object_checker.base_object_checker import AbacChecker
+
+
+class MyObjectChecker(AbacChecker):
+    @staticmethod
+    def check_my_object(user: User, obj):
+        if user.has_specific_attribute:
+            return True
+        return False
 ```
 
 #### 3. Add new object check class to module `__init__.py`
