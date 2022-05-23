@@ -31,15 +31,3 @@ class AbacObjectChecker(AbacChecker):
         if group_name == 'manager':
             return True
         return False
-
-
-class RbacExceptionSibling(RbacChecker):
-    @classmethod
-    def check_exception(cls, role: Group, user: User, obj):
-        return True
-
-
-class AbacExceptionSibling(AbacChecker):
-    @classmethod
-    def check_exception(cls, user: User, obj):
-        return True

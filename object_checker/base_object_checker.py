@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 
-class CheckingManager(object):
+class CheckingManager(ABC):
     loaded_checkers = {}
 
     @classmethod
@@ -22,11 +22,9 @@ class CheckingManager(object):
 
         if not cls.loaded_checkers:
             for checking_subclass in checking_subclasses:
-                subclasses = checking_subclass.__subclasses__()
-
-                for subclass in subclasses:
-                    for attr_name in dir(subclass):
-                        if 'check_' in attr_name and isinstance(getattr(subclass, attr_name), Callable):
+                for attr_name in dir(checking_subclass):
+                    if 'check_' in attr_name:
+                        if isinstance(getattr(checking_subclass, attr_name), Callable):
                             if attr_name in cls.loaded_checkers:
                                 raise Exception(
                                     'Checker {checker_name} has two instances with the same name.'.format(
@@ -35,7 +33,7 @@ class CheckingManager(object):
                                 )
                             else:
                                 cls.loaded_checkers.update(
-                                    {f'{attr_name}': (getattr(subclass, attr_name), checking_subclass)}
+                                    {f'{attr_name}': (getattr(checking_subclass, attr_name), checking_subclass)}
                                 )
 
         return cls.loaded_checkers

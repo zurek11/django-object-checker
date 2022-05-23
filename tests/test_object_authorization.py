@@ -45,10 +45,6 @@ def abstract_objects(db):
 
 @pytest.mark.django_db
 class TestObjectAuthorization:
-    def test_duplicate_name(self, abstract_objects, manager_user):
-        with pytest.raises(Exception):
-            has_object_permission('check_exception', manager_user, abstract_objects)
-
     def test_rbac_authorization_admin(self, abstract_objects, super_user):
         assert has_object_permission('check_rbac', super_user, abstract_objects)
 
