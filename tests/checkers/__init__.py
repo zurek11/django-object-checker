@@ -2,3 +2,4 @@ from tests.checkers.abstract_objects_checker import RbacObjectChecker
 from tests.checkers.abstract_objects_checker import AbacObjectChecker
 from tests.checkers.abstract_objects_checker import RbacExceptionSibling
 from tests.checkers.abstract_objects_checker import AbacExceptionSibling
+from tests.checkers.abstract_objects_checker import CustomObjectChecker
