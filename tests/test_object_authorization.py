@@ -66,3 +66,6 @@ class TestObjectAuthorization:
 
     def test_abac_authorization_no_role(self, abstract_objects, no_role_user):
         assert not has_object_permission('check_abac', no_role_user, abstract_objects)
+
+    def test_kwargs(self, abstract_objects, no_role_user):
+        assert not has_object_permission('check_kwargs', no_role_user, abstract_objects, result=True)

@@ -17,3 +17,7 @@
 ## 1.0.0 : 2020-11-24
 
 - 🐂 Added possibility to implement checkers by RBAC or ABAC standards.
+
+## 1.0.1 : 2022-05-23
+
+- 🐕‍🦺 Added possibility to write custom classes (inherited from ABAC and RBAC).

@@ -6,13 +6,19 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 
-class CheckingManager(ABC):
+class CheckingManager(object):
     loaded_checkers = {}
+
+    @classmethod
+    def all_subclasses(cls, cl):
+        return set(cl.__subclasses__()).union(
+            [s for c in cl.__subclasses__() for s in cls.all_subclasses(c)]
+        )
 
     @classmethod
     def get_checkers(cls):
         importlib.import_module(settings.OBJECT_CHECKERS_MODULE)
-        checking_subclasses = cls.__subclasses__()
+        checking_subclasses = cls.all_subclasses(cls)
 
         if not cls.loaded_checkers:
             for checking_subclass in checking_subclasses:
@@ -46,50 +52,12 @@ class CheckingManager(ABC):
 
 
 class AbacChecker(CheckingManager):
-    @classmethod
-    def get_checkers(cls):
-        importlib.import_module(settings.OBJECT_CHECKERS_MODULE)
-        subclasses = cls.__subclasses__()
-
-        if not cls.loaded_checkers:
-            for subclass in subclasses:
-                for attr_name in dir(subclass):
-                    if 'check_' in attr_name and isinstance(getattr(subclass, attr_name), Callable):
-                        if attr_name in cls.loaded_checkers:
-                            raise Exception(
-                                'Checker {checker_name} has two instances with the same name.'.format(
-                                    checker_name=attr_name
-                                )
-                            )
-                        else:
-                            cls.loaded_checkers.update({f'{attr_name}': (getattr(subclass, attr_name), cls)})
-
-        return cls.loaded_checkers
+    pass
 
 
 class RbacChecker(CheckingManager):
     @classmethod
-    def get_checkers(cls):
-        importlib.import_module(settings.OBJECT_CHECKERS_MODULE)
-        subclasses = cls.__subclasses__()
-
-        if not cls.loaded_checkers:
-            for subclass in subclasses:
-                for attr_name in dir(subclass):
-                    if 'check_' in attr_name and isinstance(getattr(subclass, attr_name), Callable):
-                        if attr_name in cls.loaded_checkers:
-                            raise Exception(
-                                'Checker {checker_name} has two instances with the same name.'.format(
-                                    checker_name=attr_name
-                                )
-                            )
-                        else:
-                            cls.loaded_checkers.update({f'{attr_name}': (getattr(subclass, attr_name), cls)})
-
-        return cls.loaded_checkers
-
-    @classmethod
-    def get_user_roles(cls, user: User):
+    def get_user_roles(cls, user: User, **kwargs):
         if user:
             groups = user.groups.all()
             return sorted(groups, key=lambda r: r.name)
@@ -97,17 +65,17 @@ class RbacChecker(CheckingManager):
             return []
 
 
-def has_object_permission(checker_name: str, user: User, obj) -> bool:
+def has_object_permission(checker_name: str, user: User, obj, **kwargs) -> bool:
     if user.is_superuser:
         has_permission = True
     else:
         checker = CheckingManager.retrieve_checker(checker_name)
 
         if checker:
-            if checker[1] is RbacChecker:
-                user_roles = RbacChecker.get_user_roles(user)
+            if issubclass(checker[1], RbacChecker):
+                user_roles = checker[1].get_user_roles(user, **kwargs)
                 has_permission = any([checker[0](user_role, user, obj) for user_role in user_roles])
-            elif checker[1] is AbacChecker:
+            elif issubclass(checker[1], AbacChecker):
                 has_permission = checker[0](user, obj)
             else:
                 has_permission = False
