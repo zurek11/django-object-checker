@@ -72,9 +72,9 @@ def has_object_permission(checker_name: str, user: User, obj, **kwargs) -> bool:
         if checker:
             if issubclass(checker[1], RbacChecker):
                 user_roles = checker[1].get_user_roles(user, **kwargs)
-                has_permission = any([checker[0](user_role, user, obj) for user_role in user_roles])
+                has_permission = any([checker[0](user_role, user, obj, **kwargs) for user_role in user_roles])
             elif issubclass(checker[1], AbacChecker):
-                has_permission = checker[0](user, obj)
+                has_permission = checker[0](user, obj, **kwargs)
             else:
                 has_permission = False
         else:

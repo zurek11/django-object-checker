@@ -21,3 +21,7 @@
 ## 1.0.1 : 2022-05-23
 
 - 🐕‍🦺 Added possibility to write custom classes (inherited from ABAC and RBAC).
+
+## 1.0.2 : 2022-05-25
+
+- 🦧 Added kwargs to checker methods.
